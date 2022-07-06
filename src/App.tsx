@@ -1,26 +1,26 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react'
+import Login from './Components/Login'
+import Profile from './Components/Profile';
+import { LoginContext } from './Contexts/LoginContext'
 
-function App() {
+const App = () => {
+  const [showProfile, setShowProfile] = useState<boolean>(false);
+  const [username, setUsername] = useState<string>("");
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <LoginContext.Provider value={{
+        username, 
+        onUsername: (v: string) => { setUsername(v) }, 
+        onShowProfile: (v: boolean) => { setShowProfile(v) }
+      }}>
+        {showProfile ? 
+          <Profile /> :
+          <Login />
+        }
+      </LoginContext.Provider>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
